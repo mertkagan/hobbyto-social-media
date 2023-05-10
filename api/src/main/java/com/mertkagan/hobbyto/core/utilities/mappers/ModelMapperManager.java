@@ -1,0 +1,34 @@
+package com.mertkagan.hobbyto.core.utilities.mappers;
+
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class ModelMapperManager implements  ModelMapperService {
+
+    private ModelMapper modelMapper;
+
+
+    @Override
+    public ModelMapper forResponse() {
+        this.modelMapper.getConfiguration()
+                .setAmbiguityIgnored(true)//belirsizlik olduğunda onu ignore et.
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        //GEVŞEK MAPLAMA : responseda sadece olanı mapla
+
+        return this.modelMapper;
+    }
+
+    @Override
+    public ModelMapper forRequest() {
+        this.modelMapper.getConfiguration()
+                .setAmbiguityIgnored(true)
+                .setMatchingStrategy(MatchingStrategies.STANDARD);
+        //herşeyi mapla
+
+        return this.modelMapper;
+    }
+}
